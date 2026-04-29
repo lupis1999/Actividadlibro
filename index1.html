@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Libros de Lectura</title>
+    <style>
+        body { font-family: Arial; }
+        .leido { color: green; }
+        .no-leido { color: red; }
+    </style>
+</head>
+<body>
+
+    <h1>Lista de Libros</h1>
+
+    <input type="text" id="nombreLibro" placeholder="Escribe un libro">
+    <button onclick="agregarLibro()">Agregar libro</button>
+
+    <ul id="listaLibros"></ul>
+
+    <script>
+        let libros = [];
+
+        function agregarLibro() {
+            let nombre = document.getElementById("nombreLibro").value;
+
+            if (nombre === "") {
+                alert("Escribe un libro");
+                return;
+            }
+
+            let libro = {
+                nombre: nombre,
+                leido: false
+            };
+
+            libros.push(libro);
+            mostrarLibros();
+            document.getElementById("nombreLibro").value = "";
+        }
+
+        function mostrarLibros() {
+            let lista = document.getElementById("listaLibros");
+            lista.innerHTML = "";
+
+            libros.forEach((libro, index) => {
+                let item = document.createElement("li");
+
+                item.innerHTML = `
+                    <span class="${libro.leido ? 'leido' : 'no-leido'}">
+                        ${libro.nombre} - ${libro.leido ? 'Leído' : 'No leído'}
+                    </span>
+                    <button onclick="cambiarEstado(${index})">
+                        Marcar como ${libro.leido ? 'no leído' : 'leído'}
+                    </button>
+                `;
+
+
+
+                lista.appendChild(item);
+            });
+        }
+
+        function cambiarEstado(index) {
+            libros[index].leido = !libros[index].leido;
+            mostrarLibros();
+        }
+    </script>
+
+</body>
+</html>
